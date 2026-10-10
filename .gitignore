@@ -1,0 +1,15 @@
+# Виртуальное окружение
+.venv/
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+
+# Артефакты прогона — пересоздаются каждым запуском
+allure-results/
+allure-report/
+videos/
+tracing/
+
+# Состояние браузера пишет фикстура initialize_browser_state
+browser-state.json
