@@ -1,15 +1,24 @@
-# Виртуальное окружение
+# Локальные настройки и окружения
+.idea/
 .venv/
+venv/
+.env
+.pytest_cache/
 
 # Кэш Python
 __pycache__/
 *.py[cod]
 
-# Артефакты прогона — пересоздаются каждым запуском
+# Отчёты и артефакты учебных запусков
 allure-results/
 allure-report/
+allure-history/
+gh-pages/
 videos/
 tracing/
+public/
+*.html
+*.json
 
-# Состояние браузера пишет фикстура initialize_browser_state
+# Состояние браузера пересоздаётся фикстурой
 browser-state.json
