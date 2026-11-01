@@ -4,6 +4,7 @@ from playwright.sync_api import Playwright, Page
 
 from config import settings
 from pages.authentication.registration_page import RegistrationPage
+from pages.dashboard.dashboard_page import DashboardPage
 from tools.playwright.pages import initialize_playwright_page
 from tools.routes import AppRoute
 
@@ -32,6 +33,7 @@ def initialize_browser_state(playwright: Playwright):
         password=settings.test_user.password
     )
     registration_page.click_registration_button()
+    DashboardPage(page).dashboard_toolbar_view.check_visible()
 
     context.storage_state(path=settings.browser_state_file)
     browser.close()
