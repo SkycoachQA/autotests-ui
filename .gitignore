@@ -22,3 +22,11 @@ public/
 
 # Состояние браузера пересоздаётся фикстурой
 browser-state.json
+
+# Покрытие тестовой оснастки и UI
+.coverage
+htmlcov/
+coverage-results/
+coverage.html
+coverage-history.json
+coverage-report.json
