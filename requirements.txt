@@ -9,3 +9,4 @@ pytest-rerunfailures==16.6
 pytest-xdist==3.8.0
 ui-coverage-tool==0.34.0
 coverage==7.17.0
+xai-review==1.4.0

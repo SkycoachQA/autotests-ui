@@ -1,0 +1,57 @@
+name: AI Review
+
+on:
+  workflow_dispatch:
+    inputs:
+      pull-request-number:
+        type: string
+        required: true
+        description: Pull request number
+
+permissions:
+  contents: read
+
+jobs:
+  configuration-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Validate AI Review configuration without model requests
+        uses: Nikita-Filonov/ai-review@v1.4.0
+        with:
+          review-command: show-config
+        env:
+          AI_REVIEW_CONFIG_FILE_ENV: .env.ai-review.not-loaded
+          AI_REVIEW_CONFIG_FILE_JSON: .ai-review.not-loaded.json
+          VCS__PIPELINE__OWNER: ${{ github.repository_owner }}
+          VCS__PIPELINE__REPO: ${{ github.event.repository.name }}
+          VCS__PIPELINE__PULL_NUMBER: ${{ inputs.pull-request-number }}
+          VCS__HTTP_CLIENT__API_TOKEN: configuration-validation-only
+          LLM__HTTP_CLIENT__API_TOKEN: configuration-validation-only
+
+  model-review:
+    # The user requested preparation without calling a model.
+    if: ${{ false }}
+    needs: configuration-check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Run AI Review after explicit activation
+        uses: Nikita-Filonov/ai-review@v1.4.0
+        with:
+          review-command: run
+        env:
+          AI_REVIEW_CONFIG_FILE_ENV: .env.ai-review.not-loaded
+          AI_REVIEW_CONFIG_FILE_JSON: .ai-review.not-loaded.json
+          VCS__PIPELINE__OWNER: ${{ github.repository_owner }}
+          VCS__PIPELINE__REPO: ${{ github.event.repository.name }}
+          VCS__PIPELINE__PULL_NUMBER: ${{ inputs.pull-request-number }}
+          VCS__HTTP_CLIENT__API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLM__HTTP_CLIENT__API_TOKEN: ${{ secrets.OPENAI_API_KEY }}
